@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FalconFlix · EagleCoin (EGC) · Short Drama RWA Launch</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #f7fafc;
+  --bg-soft: #ffffff;
+  --border-subtle: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #6b7280;
+  --accent: #f97316;
+  --accent-soft: rgba(249, 115, 22, 0.08);
+  --radius-lg: 22px;
+}
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: radial-gradient(circle at top, #fefce8, #eef2ff 60%);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+
+.page { min-height: 100vh; display: flex; flex-direction: column; }
+
+/* nav */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(16px);
+  background: linear-gradient(90deg, rgba(255,255,255,0.96), rgba(248,250,252,0.96));
+  border-bottom: 1px solid rgba(226,232,240,0.9);
+}
+.nav-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.brand-logo {
+  width: 40px; height: 40px; border-radius: 14px; overflow: hidden;
+  border: 1px solid rgba(249,115,22,0.5);
+  box-shadow: 0 0 14px rgba(249,115,22,0.25);
+  flex-shrink: 0;
+  background: #111827;
+}
+.brand-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.brand-text-main { font-size: 15px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+.brand-text-sub { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.16em; }
+
+.nav-links { display: flex; gap: 18px; font-size: 13px; color: #111827; }
+.nav-links a { position: relative; padding-bottom: 3px; }
+.nav-links a::after {
+  content: ""; position: absolute; left:0; right:0; bottom:0; height:1px; border-radius:999px;
+  background: linear-gradient(90deg,#f97316,#6366f1); transform-origin:center; transform:scaleX(0);
+  transition: transform 0.22s ease;
+}
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-cta { display:flex; gap:10px; align-items:center; flex-shrink:0; }
+
+.btn {
+  border-radius: 999px;
+  padding: 7px 15px;
+  font-size: 12px;
+  border: 1px solid #d1d5db;
+  background: rgba(255,255,255,0.96);
+  color: #111827;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-primary {
+  border-color: transparent;
+  background: linear-gradient(135deg,#f97316,#facc15);
+  color:#111827;
+  font-weight:600;
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 30px rgba(15,23,42,0.18);
+}
+.btn-outline:hover {
+  border-color:#9ca3af;
+  box-shadow:0 6px 20px rgba(15,23,42,0.08);
+}
+@media (max-width: 900px){
+  .nav-links { display:none; }
+}
+
+/* layout */
+main { flex:1; }
+.section { border-top:1px solid rgba(226,232,240,0.9); }
+.section-inner {
+  max-width:1180px;
+  margin:0 auto;
+  padding:60px 20px 44px;
+}
+
+/* hero */
+.hero-inner {
+  display:grid;
+  grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);
+  gap:40px;
+  align-items:center;
+}
+@media (max-width: 900px){
+  .hero-inner { grid-template-columns:1fr; padding-top:32px; }
+}
+.hero-tag {
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:11px; padding:6px 10px; border-radius:999px;
+  border:1px solid #e5e7eb; background:rgba(255,255,255,0.92); color:var(--text-muted);
+  text-transform:uppercase; letter-spacing:0.16em; margin-bottom:16px;
+}
+.hero-tag span:last-child { letter-spacing:0; text-transform:none; color:#4b5563; }
+.hero-title {
+  font-size:clamp(32px,4.6vw,46px);
+  line-height:1.05;
+  font-weight:650;
+  margin:0;
+  letter-spacing:-0.03em;
+}
+.hero-sub { margin-top:16px; font-size:14px; color:var(--text-muted); max-width:520px; }
+.hero-metrics { margin-top:24px; display:flex; flex-wrap:wrap; gap:12px; }
+.metric {
+  padding:9px 14px; border-radius:999px;
+  border:1px solid #e5e7eb; background:rgba(255,255,255,0.96);
+  font-size:12px; display:inline-flex; align-items:center; gap:8px;
+}
+.metric-label { color:var(--text-muted); }
+.metric-value { font-size:13px; font-weight:600; color:#ea580c; }
+.hero-actions { margin-top:24px; display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
+.hero-note { margin-top:10px; font-size:11px; color:#9ca3af; max-width:380px; }
+
+.hero-right-wrap { display:flex; justify-content:center; }
+.hero-card {
+  border-radius:var(--radius-lg);
+  padding:18px;
+  background:linear-gradient(145deg,rgba(255,255,255,0.98),rgba(239,246,255,0.98));
+  border:1px solid #e5e7eb;
+  max-width:380px;
+  width:100%;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 18px 40px rgba(148,163,184,0.35);
+}
+.hero-card-main {
+  border-radius:18px; overflow:hidden; background:#020617; border:1px solid #0f172a;
+}
+.hero-card-main img { width:100%; display:block; }
+
+.hero-pill {
+  position:absolute;
+  bottom:18px; left:24px; right:24px;
+  border-radius:999px;
+  padding:7px 10px;
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  background:rgba(255,255,255,0.97);
+  border:1px solid #e5e7eb;
+  box-shadow:0 12px 30px rgba(148,163,184,0.45);
+}
+.hero-pill-left { display:flex; align-items:center; gap:8px; font-size:11px; }
+.hero-pill-logo {
+  width:28px; height:28px; border-radius:999px; overflow:hidden;
+  border:1px solid rgba(249,115,22,0.6); background:#111827; flex-shrink:0;
+}
+.hero-pill-logo img { width:100%; height:100%; object-fit:cover; display:block; }
+.hero-pill-title { font-weight:600; color:#111827; }
+.hero-pill-sub { color:#6b7280; }
+.hero-pill-right { font-size:11px; color:#6b7280; text-align:right; }
+
+/* common section */
+.section-header {
+  display:flex; justify-content:space-between; gap:16px; align-items:baseline;
+  margin-bottom:18px; flex-wrap:wrap;
+}
+.section-eyebrow {
+  font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.14em;
+}
+.section-title { font-size:20px; margin:6px 0 0; letter-spacing:-0.02em; }
+.section-intro { font-size:13px; color:var(--text-muted); max-width:520px; }
+
+.grid-3, .grid-4 {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
+  margin-top:18px;
+}
+.card {
+  border-radius:18px;
+  padding:16px 16px 14px;
+  border:1px solid #e5e7eb;
+  background:rgba(255,255,255,0.98);
+  font-size:13px;
+  box-shadow:0 10px 24px rgba(148,163,184,0.25);
+}
+.card h3 { margin:0 0 6px; font-size:15px; font-weight:600; }
+.card p { margin:0; color:var(--text-muted); line-height:1.6; }
+
+/* slate images */
+.slate-gallery {
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+}
+.slate-img {
+  border-radius:20px; overflow:hidden;
+  border:1px solid #e5e7eb;
+  background:#e5e7eb;
+  box-shadow:0 10px 24px rgba(148,163,184,0.35);
+}
+.slate-img img { width:100%; display:block; }
+
+/* timeline */
+.timeline { margin-top:16px; border-left:1px solid #e5e7eb; padding-left:16px; }
+.timeline-item { position:relative; padding-bottom:14px; }
+.timeline-item::before {
+  content:""; position:absolute; left:-7px; top:4px; width:10px; height:10px;
+  border-radius:999px; background:linear-gradient(135deg,#f97316,#facc15);
+  box-shadow:0 0 0 4px rgba(249,250,251,0.9);
+}
+.timeline-title { font-size:13px; font-weight:600; margin-bottom:2px; }
+.timeline-body { font-size:12px; color:var(--text-muted); }
+
+footer {
+  border-top:1px solid rgba(226,232,240,0.9);
+  padding:20px 20px 26px;
+  font-size:11px;
+  color:#9ca3af;
+  background:#f9fafb;
+}
+.footer-inner { max-width:1180px; margin:0 auto; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <header class="nav">
+      <div class="nav-inner">
+        <div class="brand">
+          <div class="brand-logo">
+            <img src="/mnt/data/326678CC-62E1-4DB0-84CF-9051E274F735.png" alt="FalconFlix Eagle Logo" />
+          </div>
+          <div>
+            <div class="brand-text-main">FALCONFLIX</div>
+            <div class="brand-text-sub">WATCH · VOTE · OWN</div>
+          </div>
+        </div>
+        <nav class="nav-links">
+          <a href="#about">Platform</a>
+          <a href="#rwa">RWA Model</a>
+          <a href="#slate">Drama Slate</a>
+          <a href="#token">EagleCoin</a>
+          <a href="#financing">Financing</a>
+          <a href="#roadmap">Roadmap</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <div class="nav-cta">
+          <button class="btn btn-outline">Connect Wallet</button>
+          <button class="btn btn-primary">Participate</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section class="section">
+        <div class="section-inner hero-inner">
+          <div>
+            <div class="hero-tag">
+              <span>AI · WEB3 · RWA</span>
+              <span>The world’s first short‑drama RWA token project</span>
+            </div>
+            <h1 class="hero-title">
+              Tokenising short dramas with <span style="color:#f97316;">EagleCoin</span>,
+              turning stories from MENA into globally held content assets.
+            </h1>
+            <p class="hero-sub">
+              FalconFlix focuses on the Middle East and North Africa (MENA) region.
+              By combining premium short dramas with the EagleCoin (EGC) token and an RWA framework,
+              the platform turns viewers into participants and co‑owners of the content economy.
+            </p>
+            <div class="hero-metrics">
+              <div class="metric">
+                <span class="metric-label">Private round target</span>
+                <span class="metric-value">$30M</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">EGC total supply</span>
+                <span class="metric-value">1,000,000,000</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Initial RWA drama pool</span>
+                <span class="metric-value">10+ titles</span>
+              </div>
+            </div>
+            <div class="hero-actions">
+              <button class="btn btn-primary">View live RWA offerings</button>
+              <button class="btn btn-outline">Download Deck & Whitepaper</button>
+            </div>
+            <p class="hero-note">
+              This site is for informational purposes only and does not constitute an offer to sell or a solicitation to buy any securities.
+              Digital assets are highly volatile. Participation is restricted to compliant jurisdictions with full KYC / AML.
+            </p>
+          </div>
+
+          <div class="hero-right-wrap">
+            <div class="hero-card">
+              <div class="hero-card-main">
+                <img src="/mnt/data/326678CC-62E1-4DB0-84CF-9051E274F735.png" alt="FalconFlix Eagle Logo" />
+              </div>
+              <div class="hero-pill">
+                <div class="hero-pill-left">
+                  <div class="hero-pill-logo">
+                    <img src="/mnt/data/B6CE3782-67EF-441F-9ADA-BB46C4168F58.jpeg" alt="EagleCoin" />
+                  </div>
+                  <div>
+                    <div class="hero-pill-title">EagleCoin · EGC</div>
+                    <div class="hero-pill-sub">Utility token & RWA funding medium</div>
+                  </div>
+                </div>
+                <div class="hero-pill-right">
+                  <div>Initial valuation · $100M</div>
+                  <div>Ethereum Layer2 · Utility Token</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about" class="section">
+        <div class="section-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-eyebrow">ABOUT · PLATFORM</div>
+              <h2 class="section-title">An AI + Web3 short‑drama ecosystem built for MENA</h2>
+            </div>
+            <p class="section-intro">
+              FalconFlix combines short‑form drama production, a streaming platform, tokenised consumption
+              and community governance into a single stack, creating a new way for audiences, creators and investors to interact with stories.
+            </p>
+          </div>
+          <div class="grid-4">
+            <div class="card">
+              <h3>Shorts Hub</h3>
+              <p>A growing library of Chinese–Arabic premium short dramas spanning urban legends, luxury lifestyles, cross‑cultural romance, suspense and sci‑fi.</p>
+            </div>
+            <div class="card">
+              <h3>EGC Token System</h3>
+              <p>Users spend EGC to unlock dramas, purchase digital goods and NFTs, while engagement rewards are also distributed in EGC, forming a closed‑loop content economy.</p>
+            </div>
+            <div class="card">
+              <h3>RWA Funding Layer</h3>
+              <p>Each drama is structured as a 500k USD RWA pool. Investors subscribe using EGC and receive on‑chain claim tokens linked to that IP’s future revenue.</p>
+            </div>
+            <div class="card">
+              <h3>Community & DAO</h3>
+              <p>Token holders participate in governance – voting on slates, priorities and experiments – with a clear roadmap towards a DAO‑driven content ecosystem.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RWA MODEL -->
+      <section id="rwa" class="section">
+        <div class="section-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-eyebrow">RWA · STRUCTURE</div>
+              <h2 class="section-title">Treating each short drama as a priced, fractionalised real‑world asset</h2>
+            </div>
+            <p class="section-intro">
+              Building on the proven economics of China’s micro‑drama market, FalconFlix structures each series as a
+              discrete asset whose funding, ownership and cashflow distribution are recorded on‑chain via smart contracts.
+            </p>
+          </div>
+          <div class="grid-3">
+            <div class="card">
+              <h3>Underlying assets</h3>
+              <p>Drama IP focused on MENA stories – urban myths, high‑end lifestyle, cross‑cultural romance, adventure and sci‑fi – with each series designed for 10+ episodes.</p>
+            </div>
+            <div class="card">
+              <h3>Financial layer</h3>
+              <p>Investors subscribe using major stablecoins and receive EGC plus title‑specific claim tokens (NFTs), representing their share of future revenue.</p>
+            </div>
+            <div class="card">
+              <h3>Distribution layer</h3>
+              <p>Revenues come from app and web streaming, 3rd‑party platforms, advertising, product placement, IP licensing and selected offline activations.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLATE -->
+      <section id="slate" class="section">
+        <div class="section-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-eyebrow">CONTENT SLATE</div>
+              <h2 class="section-title">A multi‑series short‑drama universe born in the Middle East</h2>
+            </div>
+            <p class="section-intro">
+              The initial slate includes titles across urban legend, luxury lifestyle, cross‑border romance, suspense and sci‑fi.
+              Several projects have completed production or are about to start principal photography, with key visuals already prepared.
+            </p>
+          </div>
+          <div class="slate-gallery">
+            <div class="slate-img">
+              <img src="/mnt/data/微信图片_20251121152945_144_441.png" alt="Planned MENA short‑drama slate" />
+            </div>
+            <div class="slate-img">
+              <img src="/mnt/data/微信图片_20251121152947_145_441.png" alt="2025 dramas in production and planned" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TOKEN -->
+      <section id="token" class="section">
+        <div class="section-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-eyebrow">EAGLECOIN · TOKENOMICS</div>
+              <h2 class="section-title">EagleCoin: the economic backbone of FalconFlix</h2>
+            </div>
+            <p class="section-intro">
+              EagleCoin (EGC) is a utility token used for drama access, in‑app purchases, community incentives and governance.
+              The total supply is capped at 1 billion, with no further issuance, and a clear allocation and vesting model.
+            </p>
+          </div>
+          <div class="grid-3">
+            <div class="card">
+              <h3>Key parameters</h3>
+              <p>
+                · Name: EagleCoin (EGC)<br/>
+                · Network: Ethereum Layer2 (Polygon / Arbitrum)<br/>
+                · Total supply: 1,000,000,000 EGC<br/>
+                · Initial valuation: $100M (0.10 USDT / EGC)
+              </p>
+            </div>
+            <div class="card">
+              <h3>Allocation</h3>
+              <p>
+                · Private & fundraising: 40% (400M)<br/>
+                · Community & content incentives: 35% (350M)<br/>
+                · Team & advisors: 15% (150M, ≥2‑year vesting)<br/>
+                · DAO reserve: 10% (100M)
+              </p>
+            </div>
+            <div class="card">
+              <h3>Vesting</h3>
+              <p>
+                The first 300M EGC in the private round unlocks after a 3‑month cliff, then vests at 10% per month over 10 months.
+                Team & advisor tokens vest linearly over a longer horizon for long‑term alignment.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FINANCING -->
+      <section id="financing" class="section">
+        <div class="section-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-eyebrow">FINANCING</div>
+              <h2 class="section-title">$30M private round · fuelling content and infrastructure</h2>
+            </div>
+            <p class="section-intro">
+              The initial private round aims to raise 30M USD by selling 300M EGC at 0.10 USD each.
+              Proceeds will primarily be deployed to premium drama production, AI & Web3 infrastructure,
+              market expansion and community building, as well as operations and compliance.
+            </p>
+          </div>
+          <div class="grid-3">
+            <div class="card">
+              <h3>Content & IP · 40%</h3>
+              <p>Production of 100 Chinese–Arabic short dramas plus key IP acquisitions, creating a reusable content library and long‑term moat.</p>
+            </div>
+            <div class="card">
+              <h3>AI & Web3 infra · 35%</h3>
+              <p>AI‑assisted creation tools, virtual characters and worlds, wallet and contract layer, NFT marketplace and DAO modules.</p>
+            </div>
+            <div class="card">
+              <h3>Market, community & compliance · 25%</h3>
+              <p>Marketing across six key MENA markets, localised community operations, and licences, audits, legal and risk controls.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ROADMAP -->
+      <section id="roadmap" class="section">
+        <div class="section-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-eyebrow">ROADMAP · 2024–2026</div>
+              <h2 class="section-title">From the first RWA dramas to a global Web3 entertainment stack</h2>
+            </div>
+          </div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-title">2024 Q2 · Entity set‑up & private launch</div>
+              <div class="timeline-body">
+                Incorporation in Singapore / Dubai, whitepaper and RWA deck finalised,
+                official website and private subscription channels go live, first drama projects green‑lit.
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-title">2024 Q3 · Beta platform & first dramas released</div>
+              <div class="timeline-body">
+                Web & app beta launch, completion and release of the first batch of dramas,
+                EGC liquidity testing on DEX and community participation campaigns.
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-title">2024 Q4 · NFT marketplace & DAO</div>
+              <div class="timeline-body">
+                Launch of character and prop NFTs, community‑wide voting modules,
+                and expanded partnerships with regional distributors and brands.
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-title">2025–2026 · 100‑title slate & regional hubs</div>
+              <div class="timeline-body">
+                Scaling the library beyond 100 dramas and establishing production and operations hubs
+                across the Middle East, Africa and Southeast Asia.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq" class="section">
+        <div class="section-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-eyebrow">FAQ · TOKEN VS. EQUITY</div>
+              <h2 class="section-title">Aligning founders and investors in a dual‑track model</h2>
+            </div>
+          </div>
+          <div class="grid-3">
+            <div class="card">
+              <h3>Does EGC represent company equity?</h3>
+              <p>No. EGC is a functional platform token used for consumption and governance.
+                 Equity in the operating entity remains with shareholders and is not represented by EGC.</p>
+            </div>
+            <div class="card">
+              <h3>Investors hold 40% of tokens – who controls the project?</h3>
+              <p>Governance is designed with vesting and distributed voting power to prevent a single dominant holder.
+                 The founding team retains strategic control through the DAO framework and corporate equity.</p>
+            </div>
+            <div class="card">
+              <h3>How do token and equity financing work together?</h3>
+              <p>Token financing bootstraps users and market value, which then serves as a valuation anchor for future VC equity rounds.
+                 Founders benefit from both token appreciation and the rising value of the underlying company.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <div>© 2025 FalconFlix · EagleCoin. All rights reserved.</div>
+        <div style="margin-top:6px;">
+          This is a concept landing page. All figures and parameters are illustrative; final terms will follow official legal documentation and regulatory review.
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
