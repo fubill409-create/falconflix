@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>FALCONFLIX · 鹰眼短剧 RWA · EagleCoin (EGC)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #f7fafc;
+  --bg-soft: #ffffff;
+  --border-subtle: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #6b7280;
+  --accent: #f97316;
+  --accent-soft: rgba(249, 115, 22, 0.08);
+  --radius-lg: 22px;
+}
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: radial-gradient(circle at top, #fefce8, #eef2ff 60%);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+
+.page { min-height: 100vh; display: flex; flex-direction: column; }
+
+/* nav */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(16px);
+  background: linear-gradient(90deg, rgba(255,255,255,0.96), rgba(248,250,252,0.96));
+  border-bottom: 1px solid rgba(226,232,240,0.9);
+}
+.nav-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.brand-logo {
+  width: 40px; height: 40px; border-radius: 14px; overflow: hidden;
+  border: 1px solid rgba(249,115,22,0.5);
+  box-shadow: 0 0 14px rgba(249,115,22,0.25);
+  flex-shrink: 0;
+  background: #111827;
+}
+.brand-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.brand-text-main { font-size: 15px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+.brand-text-sub { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.16em; }
+
+.nav-links { display: flex; gap: 18px; font-size: 13px; color: #111827; }
+.nav-links a { position: relative; padding-bottom: 3px; }
+.nav-links a::after {
+  content: ""; position: absolute; left:0; right:0; bottom:0; height:1px; border-radius:999px;
+  background: linear-gradient(90deg,#f97316,#6366f1); transform-origin:center; transform:scaleX(0);
+  transition: transform 0.22s ease;
+}
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-cta { display:flex; gap:10px; align-items:center; flex-shrink:0; }
+
+.btn {
+  border-radius: 999px;
+  padding: 7px 15px;
+  font-size: 12px;
+  border: 1px solid #d1d5db;
+  background: rgba(255,255,255,0.96);
+  color: #111827;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-primary {
+  border-color: transparent;
+  background: linear-gradient(135deg,#f97316,#facc15);
+  color:#111827;
+  font-weight:600;
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 30px rgba(15,23,42,0.18);
+}
+.btn-outline:hover {
+  border-color:#9ca3af;
+  box-shadow:0 6px 20px rgba(15,23,42,0.08);
+}
+@media (max-width: 900px){
+  .nav-links { display:none; }
+}
+
+/* layout */
+main { flex:1; }
+.section { border-top:1px solid rgba(226,232,240,0.9); }
+.section-inner {
+  max-width:1180px;
+  margin:0 auto;
+  padding:60px 20px 44px;
+}
+
+/* hero */
+.hero-inner {
+  display:grid;
+  grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);
+  gap:40px;
+  align-items:center;
+}
+@media (max-width: 900px){
+  .hero-inner { grid-template-columns:1fr; padding-top:32px; }
+}
+.hero-tag {
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:11px; padding:6px 10px; border-radius:999px;
+  border:1px solid #e5e7eb; background:rgba(255,255,255,0.92); color:var(--text-muted);
+  text-transform:uppercase; letter-spacing:0.16em; margin-bottom:16px;
+}
+.hero-tag span:last-child { letter-spacing:0; text-transform:none; color:#4b5563; }
+.hero-title {
+  font-size:clamp(32px,4.6vw,46px);
+  line-height:1.05;
+  font-weight:650;
+  margin:0;
+  letter-spacing:-0.03em;
+}
+.hero-sub { margin-top:16px; font-size:14px; color:var(--text-muted); max-width:520px; }
+.hero-metrics { margin-top:24px; display:flex; flex-wrap:wrap; gap:12px; }
+.metric {
+  padding:9px 14px; border-radius:999px;
+  border:1px solid #e5e7eb; background:rgba(255,255,255,0.96);
+  font-size:12px; display:inline-flex; align-items:center; gap:8px;
+}
+.metric-label { color:var(--text-muted); }
+.metric-value { font-size:13px; font-weight:600; color:#ea580c; }
+.hero-actions { margin-top:24px; display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
+.hero-note { margin-top:10px; font-size:11px; color:#9ca3af; max-width:380px; }
+
+.hero-right-wrap { display:flex; justify-content:center; }
+.hero-card {
+  border-radius:var(--radius-lg);
+  padding:18px;
+  background:linear-gradient(145deg,rgba(255,255,255,0.98),rgba(239,246,255,0.98));
+  border:1px solid #e5e7eb;
+  max-width:380px;
+  width:100%;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 18px 40px rgba(148,163,184,0.35);
+}
+.hero-card-main {
+  border-radius:18px; overflow:hidden; background:#020617; border:1px solid #0f172a;
+}
+.hero-card-main img { width:100%; display:block; }
+
+.hero-pill {
+  position:absolute;
+  bottom:18px; left:24px; right:24px;
+  border-radius:999px;
+  padding:7px 10px;
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  background:rgba(255,255,255,0.97);
+  border:1px solid #e5e7eb;
+  box-shadow:0 12px 30px rgba(148,163,184,0.45);
+}
+.hero-pill-left { display:flex; align-items:center; gap:8px; font-size:11px; }
+.hero-pill-logo {
+  width:28px; height:28px; border-radius:999px; overflow:hidden;
+  border:1px solid rgba(249,115,22,0.6); background:#111827; flex-shrink:0;
+}
+.hero-pill-logo img { width:100%; height:100%; object-fit:cover; display:block; }
+.hero-pill-title { font-weight:600; color:#111827; }
+.hero-pill-sub { color:#6b7280; }
+.hero-pill-right { font-size:11px; color:#6b7280; text-align:right; }
+
+/* common section */
+.section-header {
+  display:flex; justify-content:space-between; gap:16px; align-items:baseline;
+  margin-bottom:18px; flex-wrap:wrap;
+}
+.section-eyebrow {
+  font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.14em;
+}
+.section-title { font-size:20px; margin:6px 0 0; letter-spacing:-0.02em; }
+.section-intro { font-size:13px; color:var(--text-muted); max-width:520px; }
+
+.grid-3, .grid-4 {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
+  margin-top:18px;
+}
+.card {
+  border-radius:18px;
+  padding:16px 16px 14px;
+  border:1px solid #e5e7eb;
+  background:rgba(255,255,255,0.98);
+  font-size:13px;
+  box-shadow:0 10px 24px rgba(148,163,184,0.25);
+}
+.card h3 { margin:0 0 6px; font-size:15px; font-weight:600; }
+.card p { margin:0; color:var(--text-muted); line-height:1.6; }
+
+/* slate images */
+.slate-gallery {
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+}
+.slate-img {
+  border-radius:20px; overflow:hidden;
+  border:1px solid #e5e7eb;
+  background:#e5e7eb;
+  box-shadow:0 10px 24px rgba(148,163,184,0.35);
+}
+.slate-img img { width:100%; display:block; }
+
+/* timeline */
+.timeline { margin-top:16px; border-left:1px solid #e5e7eb; padding-left:16px; }
+.timeline-item { position:relative; padding-bottom:14px; }
+.timeline-item::before {
+  content:""; position:absolute; left:-7px; top:4px; width:10px; height:10px;
+  border-radius:999px; background:linear-gradient(135deg,#f97316,#facc15);
+  box-shadow:0 0 0 4px rgba(249,250,251,0.9);
+}
+.timeline-title { font-size:13px; font-weight:600; margin-bottom:2px; }
+.timeline-body { font-size:12px; color:var(--text-muted); }
+
+footer {
+  border-top:1px solid rgba(226,232,240,0.9);
+  padding:20px 20px 26px;
+  font-size:11px;
+  color:#9ca3af;
+  background:#f9fafb;
+}
+.footer-inner { max-width:1180px; margin:0 auto; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <header class="nav">
+      <div class="nav-inner">
+        <div class="brand">
+          <div class="brand-logo">
+            <img src="/mnt/data/326678CC-62E1-4DB0-84CF-9051E274F735.png" alt="FalconFlix 鹰眼 Logo" />
+          </div>
+          <div>
+            <div class="brand-text-main">FALCONFLIX</div>
+            <div class="brand-text-sub">WATCH · VOTE · OWN</div>
+          </div>
+        </div>
+        <nav class="nav-links">
+          <a href="#about">平台</a>
+          <a href="#rwa">RWA 模型</a>
+          <a href="#slate">短剧片单</a>
+          <a href="#token">EagleCoin</a>
+          <a href="#financing">募资结构</a>
+          <a href="#roadmap">路线图</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <div class="nav-cta">
+          <button class="btn btn-outline">连接钱包</button>
+          <button class="btn btn-primary">立即认购</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section class="section">
+        <div class="section-inner hero-inner">
+          <div>
+            <div class="hero-tag">
+              <span>AI · WEB3 · RWA</span>
+              <span>全球首个基于短剧RWA的发币项目</span>
+            </div>
+            <h1 class="hero-title">
+              通过短剧资产化发行 <span style="color:#f97316;">EagleCoin</span>，把中东故事做成可以被全球观众持有的内容资产
+            </h1>
+            <p class="hero-sub">
+              FalconFlix 聚焦中东及北非（MENA）市场，将中阿双语短剧通过 RWA 模型与平台代币 EagleCoin（EGC）资产化，
+              让观众在“看剧”的同时，成为项目的出品人和权益方。 
+            </p>
+            <div class="hero-metrics">
+              <div class="metric">
+                <span class="metric-label">首轮私募目标</span>
+                <span class="metric-value">$30M</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">EGC 总发行量</span>
+                <span class="metric-value">10 亿枚</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">首批 RWA 短剧项目</span>
+                <span class="metric-value">10 部+</span>
+              </div>
+            </div>
+            <div class="hero-actions">
+              <button class="btn btn-primary">查看正在募资的短剧</button>
+              <button class="btn btn-outline">下载白皮书 / RWA 计划书</button>
+            </div>
+            <p class="hero-note">
+              本页面仅为项目信息展示，不构成任何投资建议。加密资产存在波动与合规风险，请在合规地区并完成 KYC / AML 后审慎参与。
+            </p>
+          </div>
+
+          <div class="hero-right-wrap">
+            <div class="hero-card">
+              <div class="hero-card-main">
+                <img src="/mnt/data/326678CC-62E1-4DB0-84CF-9051E274F735.png" alt="FalconFlix Eagle Logo" />
+              </div>
+              <div class="hero-pill">
+                <div class="hero-pill-left">
+                  <div class="hero-pill-logo">
+                    <img src="/mnt/data/B6CE3782-67EF-441F-9ADA-BB46C4168F58.jpeg" alt="EagleCoin" />
+                  </div>
+                  <div>
+                    <div class="hero-pill-title">EagleCoin · EGC</div>
+                    <div class="hero-pill-sub">平台代币 & 短剧 RWA 募资媒介</div>
+                  </div>
+                </div>
+                <div class="hero-pill-right">
+                  <div>初始估值 · $100M</div>
+                  <div>Ethereum Layer2 · Utility Token</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about" class="section">
+        <div class="section-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-eyebrow">ABOUT · 平台简介</div>
+              <h2 class="section-title">一个面向 MENA 的 AI + Web3 短剧内容生态</h2>
+            </div>
+            <p class="section-intro">
+              FalconFlix（鹰眼短剧）以“短剧内容 + Web3 代币 + RWA 资产化”为核心，将短剧生产、平台播放、
+              虚拟资产消费与社区共治整合为一体，打造从内容拍摄到代币发行的完整飞轮。 
+            </p>
+          </div>
+          <div class="grid-4">
+            <div class="card">
+              <h3>剧集中心 · Shorts Hub</h3>
+              <p>都市传说、富豪生活、跨文化爱情、悬疑冒险、现代职场、科技幻想等系列短剧矩阵，面向中东观众本地化创作。</p>
+            </div>
+            <div class="card">
+              <h3>EGC 经济系统</h3>
+              <p>用户用 EGC 解锁剧集、购买虚拟道具与 NFT，平台使用 EGC 激励用户行为，构建“看剧即参与经济”的闭环。 </p>
+            </div>
+            <div class="card">
+              <h3>RWA 募资模型</h3>
+              <p>每部短剧以约 50 万美元为基础拆分为链上资产，投资人通过认购 EGC + 权益凭证参与项目融资与收益分配。 </p>
+            </div>
+            <div class="card">
+              <h3>社区共创 & DAO</h3>
+              <p>持币用户可以投票决定“拍什么、先上哪部剧”，未来通过 DAO 模式参与更深层的策略治理。 </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RWA MODEL -->
+      <section id="rwa" class="section">
+        <div class="section-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-eyebrow">RWA · 模型设计</div>
+              <h2 class="section-title">把每一部短剧视作可定价、可分割、可流通的真实世界资产</h2>
+            </div>
+            <p class="section-intro">
+              结合中国短剧市场已经验证的商业模式，FalconFlix 将每一部短剧拆解为链上可记账的资产单元，
+              通过智能合约记录认购金额、权益份额与收益分配。 
+            </p>
+          </div>
+          <div class="grid-3">
+            <div class="card">
+              <h3>底层资产：短剧 IP 池</h3>
+              <p>以 MENA 题材为主：都市传说、豪门生活、跨文化爱情、悬疑冒险、科幻等，每个系列规划10部以上故事短剧。 </p>
+            </div>
+            <div class="card">
+              <h3>金融层：EGC + 权益凭证</h3>
+              <p>投资人使用 USDT/USDC/ETH 等认购，对应获得 EGC 与单片权益凭证（可 NFT 化），份额和收益比例均在链上透明可查。 </p>
+            </div>
+            <div class="card">
+              <h3>分发层：多渠道变现</h3>
+              <p>短剧上线 App、H5 与三方平台，通过播放分账、广告、植入、版权授权及线下活动等多元化方式实现收益。 </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLATE -->
+      <section id="slate" class="section">
+        <div class="section-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-eyebrow">CONTENT SLATE · 短剧片单</div>
+              <h2 class="section-title">已拍 & 计划拍摄的 MENA 题材短剧矩阵</h2>
+            </div>
+            <p class="section-intro">
+              根据最新的片单规划，首期将围绕 MENA 地区特色推出都市传说、富豪生活、跨文化爱情、悬疑冒险等多个系列，
+              每个系列都会拍摄 10 部以上短剧。部分作品已杀青，更多项目正在筹备开机。 
+            </p>
+          </div>
+          <div class="slate-gallery">
+            <div class="slate-img">
+              <img src="/mnt/data/微信图片_20251121152945_144_441.png" alt="短剧系列与多部海报规划图" />
+            </div>
+            <div class="slate-img">
+              <img src="/mnt/data/微信图片_20251121152947_145_441.png" alt="2025年已杀青与开机短剧海报排布" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TOKEN -->
+      <section id="token" class="section">
+        <div class="section-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-eyebrow">EAGLECOIN · TOKENOMICS</div>
+              <h2 class="section-title">EGC：短剧 RWA 生态的经济引擎</h2>
+            </div>
+            <p class="section-intro">
+              EagleCoin（EGC）是 FalconFlix 平台的功能型代币，用于短剧解锁、虚拟商品购买、社区激励与治理投票。
+              总发行量 10 亿枚，永不增发，采用分配 + 锁仓机制平衡早期融资与长期生态发展。 
+            </p>
+          </div>
+          <div class="grid-3">
+            <div class="card">
+              <h3>基础参数</h3>
+              <p>
+                · 名称：EagleCoin（EGC）<br/>
+                · 网络：以太坊 Layer2（Polygon / Arbitrum 等）<br/>
+                · 总量：10 亿枚（固定）<br/>
+                · 初始估值：1 亿美元（0.1 USDT / EGC）
+              </p>
+            </div>
+            <div class="card">
+              <h3>代币分配</h3>
+              <p>
+                · 私募与融资用途：40%（4 亿枚）<br/>
+                · 社区与内容创作激励：35%（3.5 亿枚）<br/>
+                · 团队与顾问：15%（1.5 亿枚，至少 2 年锁仓）<br/>
+                · DAO 治理储备金：10%（1 亿枚）
+              </p>
+            </div>
+            <div class="card">
+              <h3>释放与锁仓</h3>
+              <p>
+                首轮私募计划发行 3 亿枚 EGC，锁仓 3 个月后按月释放 10%，共 10 个月完成；
+                团队和顾问代币采用长期线性解锁机制，以保护市场稳定与项目长期价值。 
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FINANCING -->
+      <section id="financing" class="section">
+        <div class="section-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-eyebrow">FINANCING · 募资结构</div>
+              <h2 class="section-title">首轮私募 3,000 万美元 · 内容与技术双驱动</h2>
+            </div>
+            <p class="section-intro">
+              首轮私募以 0.1 美元 / 枚价格发行 3 亿枚 EGC，筹集 3,000 万美元，
+              资金用于精品短剧制作、AI 技术与虚拟 IP、海外市场与社区、DAO 生态与 Web3 基建，以及运营团队与合规。 
+            </p>
+          </div>
+          <div class="grid-3">
+            <div class="card">
+              <h3>内容拍摄与版权 · 40%</h3>
+              <p>拍摄 100 部中阿双语短剧与购买核心 IP，构建可持续复用的内容资产库，打造平台护城河。</p>
+            </div>
+            <div class="card">
+              <h3>AI & Web3 基础设施 · 35%</h3>
+              <p>AI 辅助创作工具、虚拟人物与场景、钱包与合约系统、NFT 市场与 DAO 治理模块等核心基建。 </p>
+            </div>
+            <div class="card">
+              <h3>市场、社区与合规 · 25%</h3>
+              <p>中东六国市场投放、本地化运营团队建设，以及牌照、审计、法律与风控相关成本。 </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ROADMAP -->
+      <section id="roadmap" class="section">
+        <div class="section-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-eyebrow">ROADMAP · 2024–2026</div>
+              <h2 class="section-title">从首批短剧 RWA 到全球 Web3 娱乐生态</h2>
+            </div>
+          </div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-title">2024 Q2 · 主体搭建与私募启动</div>
+              <div class="timeline-body">
+                新加坡 / 迪拜实体公司落地，完成白皮书与 RWA 发币计划，官网与私募通道上线，首批短剧项目立项。 
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-title">2024 Q3 · 平台 Beta 与首批短剧上线</div>
+              <div class="timeline-body">
+                App + Web Beta 发布，完成首批短剧拍摄与上架，EGC 在 DEX 上线测试流动性与社区认购。 
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-title">2024 Q4 · NFT 市场与 DAO 治理模块</div>
+              <div class="timeline-body">
+                发布首批角色与道具 NFT，开启社区投票模块，引入更多区域合作方与品牌联名。 
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-title">2025–2026 · 百部短剧矩阵与多区域节点</div>
+              <div class="timeline-body">
+                短剧库扩展至百部以上，在中东、非洲与东南亚建立内容与运营节点，形成全球化 Web3 娱乐生态。 
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq" class="section">
+        <div class="section-inner">
+          <div class="section-header">
+            <div>
+              <div class="section-eyebrow">FAQ · 代币 & 股权</div>
+              <h2 class="section-title">代币、股权与治理：如何兼顾投资人与创始人</h2>
+            </div>
+          </div>
+          <div class="grid-3">
+            <div class="card">
+              <h3>EGC 是否代表公司股权？</h3>
+              <p>EGC 为平台功能型代币，用于消费与治理，不代表实体公司的股权；实体股权与经营权仍由公司股东持有。</p>
+            </div>
+            <div class="card">
+              <h3>投资人持币 40%，谁掌控项目？</h3>
+              <p>DAO 治理采用锁仓与投票权重分散机制，避免形成单一“大持币人”；创始团队通过治理架构保持长期战略主导权。</p>
+            </div>
+            <div class="card">
+              <h3>代币融资与实体股权融资如何协同？</h3>
+              <p>代币融资帮助项目快速积累用户与市值，为后续 VC 股权融资提供估值锚点；创始人通过代币增值和实体股权两条路径实现长期收益。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <div>© 2025 FalconFlix · EagleCoin. All rights reserved.</div>
+        <div style="margin-top:6px;">
+          本网站为概念展示页面，所有数字与参数仅为示例，最终以正式法律文件与最新披露为准。
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
